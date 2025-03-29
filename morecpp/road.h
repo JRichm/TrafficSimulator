@@ -1,30 +1,30 @@
 #pragma once
 #include <vector>
+#include <memory>
+#include <algorithm>
+#include <random>
 #include "gameobject.h"
-#include "car.h"
+#include "car.h" // Now we can include car.h since it only has forward declaration of Road
 
 class Road : public GameObject {
 private:
-    std::vector<Car> cars;
     float length;
-    int lanes;
+    int laneCount;
+    float laneWidth;
+    std::vector<std::shared_ptr<Car>> cars;
 
 public:
     Road(const Vector3& pos, float roadLength, float width, int numLanes)
         : GameObject(pos, Vector3(roadLength, width, 0), Color(0.5f, 0.5f, 0.5f)),
-        length(roadLength), lanes(numLanes) {}
+        length(roadLength),
+        laneCount(numLanes),
+        laneWidth(width / numLanes) {}
 
-    void addCar(const Car& car) {
-        cars.push_back(car);
-    }
-
-    void update(float deltaTime) {
-        for (auto& car : cars) {
-            car.update(deltaTime);
-        }
-    }
-
-    const std::vector<Car>& getCars() const { return cars; }
+    void addCar(std::shared_ptr<Car> car);
+    void update(float deltaTime) override;
+    float getLanePosition(int lane) const;
+    int getLaneCount() const { return laneCount; }
+    float getLaneWidth() const { return laneWidth; }
+    const std::vector<std::shared_ptr<Car>>& getCars() const { return cars; }
     float getLength() const { return length; }
-    int getLanes() const { return lanes; }
 };
