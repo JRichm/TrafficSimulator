@@ -27,7 +27,7 @@ The simulation uses a time-step based physics system:
 ## Requirements
 
 - C++11 or higher
-- OpenGL 3.3+
+- OpenGL 3.3 or higher
 - GLFW
 - GLAD
 - GLM
