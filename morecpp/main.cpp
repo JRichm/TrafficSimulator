@@ -1,9 +1,8 @@
 #include <iostream>
 #include <random>
-#include <memory>
 #include "road.h"
 #include "car.h"
-#include "gameloop.h"
+#include "openglDisplay.h" // This already includes GLAD
 
 int main() {
     // Create a random number generator for varied speeds
@@ -39,7 +38,7 @@ int main() {
     auto car4 = std::make_shared<Car>(
         Vector3(25, road.getLanePosition(2), 0),  // Position in lane 2 (with offset)
         Vector3(2, 1, 1),                         // Dimensions
-        Color::Green(),                           // Color
+        Color::Yellow(),                          // Color
         speedDist(gen)                            // Random preferred speed
     );
 
@@ -49,8 +48,23 @@ int main() {
     road.addCar(car3);
     road.addCar(car4);
 
-    // Run game loop
-    GameLoop::run(road);
+    // Add more cars (optional)
+    for (int i = 0; i < 5; i++) {
+        int lane = gen() % 3;  // Random lane
+        float offset = 35.0f + i * 10.0f;  // Spread cars out
+
+        auto car = std::make_shared<Car>(
+            Vector3(offset, road.getLanePosition(lane), 0),
+            Vector3(2, 1, 1),
+            Color(gen() % 200 + 55, gen() % 200 + 55, gen() % 200 + 55),  // Random color
+            speedDist(gen)
+        );
+
+        road.addCar(car);
+    }
+
+    // Run the simulation with OpenGL rendering
+    OpenGLGameLoop::run(road);
 
     return 0;
 }
