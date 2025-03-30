@@ -31,3 +31,5 @@ The simulation uses a time-step based physics system:
 - GLFW
 - GLAD
 - GLM
+
+![alt text](https://github.com/JRichm/TrafficSimulator/blob/main/screenshots/250330.png)
