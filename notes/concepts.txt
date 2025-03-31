@@ -1,0 +1,98 @@
+
+// Conceptual structure
+
+
+
+Road Network Architecture: graph based
+
+
+    class RoadNetwork {
+    private:
+        std::vector<std::shared_ptr<RoadSegment>> roadSegments;
+        std::vector<std::shared_ptr<Intersection>> intersections;
+        std::vector<std::shared_ptr<SpawnPoint>> spawnPoints;
+        std::vector<std::shared_ptr<Destination>> destinations;
+    };
+
+
+
+
+
+Road Segments
+Each road segment would need to know:
+
+Its shape (straight, curved)
+Connection points (where it connects to intersections or other segments)
+Lane configuration (number, direction, type - regular, exit-only, etc.)
+Speed limit
+
+
+    class RoadSegment {
+    private:
+        std::vector<Vector3> controlPoints; // For curved roads
+        float speedLimit;
+        int lanes;
+        bool isBidirectional;
+        std::weak_ptr<Junction> startJunction;
+        std::weak_ptr<Junction> endJunction;
+    };
+
+
+
+
+
+Intersections are where road logic gets complex:
+
+- Traffic light management
+- Right-of-way rules
+- Turn lanes
+
+    class Intersection : public Junction {
+    private:
+        std::vector<std::shared_ptr<TrafficLight>> trafficLights;
+        IntersectionType type; // roundabout, 4-way stop, signaled, etc.
+
+        bool canVehicleProceed(Vehicle* vehicle);
+    };
+
+
+
+
+
+Vehicle Navigation
+Cars would need a navigation system:
+
+    class Vehicle {
+    private:
+        std::shared_ptr<Destination> destination;
+        std::vector<std::shared_ptr<RoadSegment>> plannedRoute;
+        void planRoute(std::shared_ptr<Destination> dest);
+        void updateNavigation();
+    };
+
+
+
+Map Editor Considerations
+For a map editor, consider:
+
+A grid-based system to snap road pieces
+Templates for common road configurations
+Tools to set speed limits, lane counts, etc.
+Validation to ensure roads properly connect
+
+
+
+
+
+Vehicle Generators & Destinations
+
+    class SpawnPoint {
+    private:
+        Vector3 position;
+        std::shared_ptr<RoadSegment> connectedRoad;
+        float spawnRate;
+        std::vector<VehicleType> allowedVehicleTypes;
+        std::map<std::shared_ptr<Destination>, float> destinationWeights;
+        std::shared_ptr<Vehicle> generateVehicle();
+    };
+
