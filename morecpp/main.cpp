@@ -11,7 +11,7 @@ int main() {
     std::uniform_real_distribution<> speedDist(3.0f, 8.0f);
 
     // Create road (position, length, width, lanes)
-    Road road(Vector3(0, 0, 0), 512.0f, 12.0f, 3);
+    Road road(Vector3(0, 0, 0), 512.0f, 12.0f, 5);
 
     // // Create cars with different speeds using shared pointers
     // auto car1 = std::make_shared<Car>(
@@ -49,8 +49,8 @@ int main() {
     // road.addCar(car4);
 
     // Add more cars (optional)
-    for (int i = 0; i < 100; i++) {
-        int lane = gen() % 3;  // Random lane
+    for (int i = 0; i < 5000; i++) {
+        int lane = gen() % 5;  // Random lane
         float offset = i * 10.0f;  // Spread cars out
 
         auto car = std::make_shared<Car>(
