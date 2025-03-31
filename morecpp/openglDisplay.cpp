@@ -196,11 +196,11 @@ bool OpenGLDisplay::processEvents() {
 }
 
 void OpenGLDisplay::render(const Road& road) {
-    // Debug output
-    std::cout << "Camera position: (" << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << ")" << std::endl;
-    std::cout << "Camera height (zoom): " << cameraPos.y << std::endl;
-    std::cout << "Road position: (" << road.getPosition().x << ", " << road.getPosition().y << ", " << road.getPosition().z << ")" << std::endl;
-    std::cout << "Road dimensions: L=" << road.getLength() << ", W=" << road.getWidth() << std::endl;
+    // // Debug output
+    // std::cout << "Camera position: (" << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << ")" << std::endl;
+    // std::cout << "Camera height (zoom): " << cameraPos.y << std::endl;
+    // std::cout << "Road position: (" << road.getPosition().x << ", " << road.getPosition().y << ", " << road.getPosition().z << ")" << std::endl;
+    // std::cout << "Road dimensions: L=" << road.getLength() << ", W=" << road.getWidth() << std::endl;
 
     // Clear buffers
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
