@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include "roadNetwork.h"
 
+
 class OpenGLDisplay {
 private:
 	GLFWwindow* window;
@@ -25,6 +26,7 @@ private:
 	void drawRoadSegment(const RoadSegment& road);
 	void drawJunction(const Junction& junction);
 	void drawVehicle(const Vehicle& vehicle);
+
 
 public:
 	OpenGLDisplay(int width = 800, int height = 600);

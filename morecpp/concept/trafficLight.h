@@ -3,6 +3,7 @@
 #include <string>
 #include "vec3.h"
 
+
 enum class TrafficLightState {
 	RED,
 	YELLOW,
@@ -11,6 +12,7 @@ enum class TrafficLightState {
 	RIGHT_ARROW
 };
 
+
 class TrafficLight {
 private:
 	std::string id;
@@ -18,6 +20,7 @@ private:
 	TrafficLightState currentState;
 	int fromRoadId;
 	int toRoadId;
+
 
 public:
 	TrafficLight(const std::string& id, const Vector3& pos, int fromRoad, int toRoad);

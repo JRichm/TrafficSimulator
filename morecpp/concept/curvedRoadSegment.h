@@ -2,9 +2,11 @@
 
 #include "roadSegment.h"
 
+
 class CurvedRoadSegment : public RoadSegment {
 private:
 	std::vector<Vector3> controlPoints;
+
 
 public:
 	CurvedRoadSegment(const std::string& id, float speedLimit, const std::vector<Vector3>& controls);

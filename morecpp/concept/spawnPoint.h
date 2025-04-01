@@ -7,6 +7,7 @@
 #include "vehicle.h"
 
 
+
 // forward declarations
 class RoadSegment;
 class Destination;
@@ -20,6 +21,7 @@ private: Vector3 position;
 
 	std::vector<VehicleType> allowedVehicleTypes;
 	std::map<std::shared_ptr<Destination>, float> destinationWeights;
+
 
 public:
 	SpawnPoint(const Vector3& pos, std::shared_ptr<RoadSegment> road, int lane, float rate);

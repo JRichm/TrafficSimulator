@@ -12,6 +12,7 @@
 class Junction;
 class Vehicle;
 
+
 class RoadSegment : public GameObject {
 protected:
 	std::string id;
@@ -31,6 +32,7 @@ protected:
 
 	std::vector<LaneTransition> laneTransitions;
 	std::vector<std::shared_ptr<Vehicle>> vehicles;
+
 
 public:
 	RoadSegment(const std::string& id, const Vector3& pos, const Vector3& dim, float speedLimit);

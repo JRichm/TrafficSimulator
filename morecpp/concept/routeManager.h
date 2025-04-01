@@ -7,10 +7,12 @@
 #include "roadSegment.h"
 #include "destination.h"
 
+
 class RouteManager {
 private:
 	std::unordered_map<std::string, std::shared_ptr<Junction>> junctions;
 	std::unordered_map<std::string, std::shared_ptr<RoadSegment>> roadSegments;
+
 
 public:
 	void addJunction(std::shared_ptr<Junction> junction);

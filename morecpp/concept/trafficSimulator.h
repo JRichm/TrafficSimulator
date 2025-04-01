@@ -4,6 +4,7 @@
 #include "roadNetwork.h"
 #include "openglDisplay.h"
 
+
 class TrafficSimulator {
 private:
 	std::shared_ptr<RoadNetwork> network;
@@ -11,6 +12,7 @@ private:
 
 	float simulationSpeed;
 	bool isPaused;
+
 
 public:
 	TrafficSimulator();

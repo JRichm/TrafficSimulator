@@ -2,6 +2,7 @@
 
 #include "junction.h"
 
+
 class SimpleJunction : public Junction {
 public:
 	SimpleJunction(const std::string& id, const Vector3& pos);

@@ -10,12 +10,13 @@
 #include "destination.h"
 
 
-class RoadNetwork() {
+class RoadNetwork {
 private:
 	std::unordered_map<std::string, std::shared_ptr<Junction>> junctions;
 	std::unordered_map<std::string, std::shared_ptr<RoadSegment>> roadSegments;
 	std::vector<std::shared_ptr<SpawnPoint>> spawnPoints;
 	std::vector<std::shared_ptr<Destination>> destinations;
+
 
 public:
 	void addJunction(std::shared_ptr<Junction> junction);
@@ -28,4 +29,4 @@ public:
 
 	void update(float deltaTime);
 	void generateTraffic(float deltaTime); // don't know about this function
-}
+};

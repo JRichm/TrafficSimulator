@@ -3,6 +3,7 @@
 #include <vector>
 #include "vec3.h"
 
+
 enum class LaneType {
 	REGULAR,
 	EXIT_ONLY,
@@ -17,12 +18,14 @@ enum class LaneType {
 // forward declaration
 class Vehicle;
 
+
 class Lane {
 private:
 	int index;
 	LaneType type;
 	float width;
 	bool isReversible;
+
 
 public: 
 	Lane(int idx, LaneType type, float width);

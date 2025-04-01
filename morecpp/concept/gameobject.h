@@ -4,11 +4,13 @@
 #include "vec3.h"
 #include "color.h"
 
+
 class GameObject {
 protected:
 	Vector3 position;
 	Vector3 dimensions;
 	Color color;
+
 
 public:
 	GameObject(const Vector3& pos, const Vector3& dim, const Color& col);

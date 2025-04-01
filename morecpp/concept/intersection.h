@@ -4,6 +4,7 @@
 #include "junction.h"
 #include "trafficLight.h"
 
+
 enum class IntersectionType {
 	STOP_LIGHT,
 	STOP_SIGN,
@@ -11,12 +12,14 @@ enum class IntersectionType {
 	ROUNDABOUT
 };
 
+
 enum class TurnType {
 	LEFT,
 	RIGHT,
 	STRAIGHT,
 	U_TURN
 };
+
 
 struct LaneConnection {
 	int fromRoadId;
@@ -26,12 +29,14 @@ struct LaneConnection {
 	TurnType turnType;
 };
 
+
 struct PathOption {
 	std::shared_ptr<RoadSegment> toRoad;
 	int toLane;
 	TurnType turnType;
 	float angle;
 };
+
 
 class Intersection : public Junction {
 private:
@@ -47,6 +52,7 @@ private:
 	std::vector<SignalPhase> signalPhases;
 	int currentPhse;
 	float phseTimer;
+
 
 public:
 	Intersection(const std::string& id, const Vector3& pos, IntersectionType type);

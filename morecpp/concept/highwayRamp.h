@@ -7,12 +7,14 @@ enum class RampType {
 	EXIT
 };
 
+
 struct MergeInfo {
 	float mergeStartDistance;
 	float mergeEndDistance;
 	int targetLane;
 	float mergeAngle;
 };
+
 
 class HighwayRamp : public RoadSegment {
 private:
@@ -21,6 +23,7 @@ private:
 	float mergeStartDistance;
 	float mergeEndDistance;
 	int targetLane;
+
 
 public:
 	HighwayRamp(const std::string& id, const Vector3& pos, const Vector3& dim, float speedLimit, RampType type);

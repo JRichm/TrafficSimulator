@@ -5,15 +5,18 @@
 #include <string>
 #include "vec3.h"
 
+
 // forward declaration
 class RoadSegment;
 class Vehicle;
+
 
 class Junction {
 protected:
 	std::string id;
 	Vector3 position;
 	std::vector<std::weak_ptr<RoadSegment>> connectedRoads;
+
 
 public:
 	Junction(const std::string& id, const Vector3& pos);

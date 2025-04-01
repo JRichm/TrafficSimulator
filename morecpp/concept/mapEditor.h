@@ -6,6 +6,7 @@
 #include "roadNetwork.h"
 #include "openglDisplay.h"
 
+
 enum class EditorTool {
 	SELECT,
 	ROAD,
@@ -35,6 +36,7 @@ private:
 	void handleDrag(double xpos, double ypos);
 	void handleRelease(double xpos, double ypos);
 	void handleKeyPress(int key);
+
 
 public:
 	MapEditor();

@@ -5,6 +5,8 @@
 #include "gameobject.h"
 #include "vec3.h"
 #include "roadSegment.h"
+#include "highwayRamp.h"
+
 
 enum class VehicleType {
 	CAR,
@@ -12,6 +14,7 @@ enum class VehicleType {
 	BUS,
 	MOTORCYCLE
 };
+
 
 enum class VehicleState {
 	CRUISING,
@@ -22,8 +25,10 @@ enum class VehicleState {
 	STOPPED
 };
 
+
 // forward declaration
 class Destination;
+
 
 class Vehicle : public GameObject {
 protected:
@@ -44,6 +49,7 @@ protected:
 
 	float laneChangeTimer;
 	float minLaneChangeTime;
+
 
 public:
 	Vehicle(VehicleType type, const Vector3& pos, const Vector3& dim, const Color& col);

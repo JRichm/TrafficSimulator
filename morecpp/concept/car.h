@@ -7,6 +7,7 @@ class Car : public Vehicle {
 private:
 	bool isAutonomous;
 	
+
 public:
 	Car(const Vector3& pos, const Vector3& dim, const Color& col, float preferredSpeed = 5.0f);
 
