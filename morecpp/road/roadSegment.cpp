@@ -176,3 +176,41 @@ std::vector<std::shared_ptr<Vehicle>> RoadSegment::getVehiclesInLane(int laneInd
 
 	return result;
 }
+
+
+std::vector<std::shared_ptr<Vehicle>> RoadSegment::getVehiclesInLaneSection(int laneIndex, float startDist, float endDist) const {
+	std::vector<std::shared_ptr<Vehicle>> result;
+
+	for (const auto& vehicle : vehicles) {
+		float vehicleDist = vehicle->getDistancealongroad();
+		if (vehicle->getCurrentLane() == laneIndex && vehicleDist >= startDist && vehicleDist <= endDist) {
+			result.push_back(vehicle);
+		}
+	}
+
+	return result;
+}
+
+const std::string& RoadSegment::getId() const {
+	return id;
+}
+
+
+float RoadSegment::getLength() const {
+	return length;
+}
+
+
+float RoadSegment::getSpeedLimit() const {
+	return speedLimit;
+}
+
+
+std::shard_ptr<Junction> RoadSegment::getStartJunction() const {
+	return startJunction.lock();
+}
+
+
+std::shared_ptr<Junction> RoadSegment::getEndJunction() const {
+	return endJunction.lock();
+}
