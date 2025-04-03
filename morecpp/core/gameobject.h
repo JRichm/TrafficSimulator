@@ -13,14 +13,16 @@ protected:
 
 
 public:
-	GameObject(const Vector3& pos, const Vector3& dim, const Color& col);
+	GameObject(const Vector3& pos, const Vector3& dim, const Color& col)
+		: position(pos), dimensions(dim), color(col) {}
+
 	virtual ~GameObject() = default;
 
 	virtual void update(float deltaTime) = 0;
 
 	// getters/setters
-	const Vector3& getPosition() const;
-	void setPosition(const Vector3& pos);
-	const Vector3& getDimensions() const;
-	const Color& getColor() const;
+	const Vector3& getPosition() const { return position; }
+	void setPosition(const Vector3& pos) { position = pos; }
+	const Vector3& getDimensions() const { return dimensions; }
+	const Color& getColor() const { return color; }
 };
