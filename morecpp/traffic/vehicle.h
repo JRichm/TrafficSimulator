@@ -2,10 +2,11 @@
 
 #include <vector>
 #include <memory>
-#include "gameobject.h"
-#include "vec3.h"
-#include "roadSegment.h"
-#include "highwayRamp.h"
+
+#include "../core/gameobject.h"
+#include "../core/vec3.h"
+#include "../road/roadSegment.h"
+#include "../road/highwayRamp.h"
 
 
 enum class VehicleType {
