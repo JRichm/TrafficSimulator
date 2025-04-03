@@ -16,7 +16,7 @@ class Junction;
 class Vehicle;
 
 
-class RoadSegment : public GameObject {
+class RoadSegment : public GameObject, public std::enable_shared_from_this<RoadSegment> {
 protected:
 	std::string id;
 	float length;
@@ -57,7 +57,7 @@ public:
 	// get lanes
 	int getLaneCount() const;
 	int getLaneCountAt(float distance) const;
-	bool isValidLane(int laneIndex, float distance) const;
+	bool isValidLane(int laneIndex, float distance) const { return laneIndex >= 0 && laneIndex < getLaneCountAt(distance); }
 	int getTargetLane(int currentLane, float currentDistance, float lookAheadDistance) const;
 
 	// get vehicles
