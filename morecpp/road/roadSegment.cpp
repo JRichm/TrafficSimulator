@@ -132,7 +132,7 @@ int RoadSegment::getLaneCountAt(float distance) const {
 }
 
 
-bool RoadSegment::getTargetLane(int currentLane, float currentDistance, float lookAheadDistance) const {
+int RoadSegment::getTargetLane(int currentLane, float currentDistance, float lookAheadDistance) const {
 	// find distance ahead
 	float targetDistance = currentDistance + lookAheadDistance;
 
