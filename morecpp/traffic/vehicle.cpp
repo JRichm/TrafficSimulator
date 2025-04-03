@@ -5,6 +5,7 @@
 #include "vehicle.h"
 #include "../navigation/routeManager.h"
 
+
 Vehicle::Vehicle(VehicleType type, const Vector3& pos, const Vector3& dim, const Color& col)
   : GameObject(pos, dim, col),
 	type(type),
@@ -106,6 +107,7 @@ void Vehicle::setCurrentRoad(std::shared_ptr<RoadSegment> road, float distance, 
 	}
 }
 
+
 void Vehicle::setDestination(std::shared_ptr<Destination> dest) {
 	destination = dest;
 
@@ -128,6 +130,7 @@ void Vehicle::planRoute() {
 		destination
 	);
 }
+
 
 void Vehicle::adjustSpeedForTraffic(const std::vector <std::shared_ptr<Vehicle>>& nearbyCars, float deltaTime) {
 	float targetSpeed = preferredSpeed;
@@ -169,6 +172,7 @@ void Vehicle::adjustSpeedForTraffic(const std::vector <std::shared_ptr<Vehicle>>
 
 	currentSpeed = std::max(0.0f, std::min(currentSpeed, maxSpeed));
 }
+
 
 bool Vehicle::shouldChangeLane(const std::vector<std::shared_ptr<Vehicle>>& nearbyCars) {
 	bool carAheadTooClose = false;
