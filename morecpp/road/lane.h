@@ -1,7 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "vec3.h"
+
+#include "../core/vec3.h"
 
 
 enum class LaneType {
@@ -27,14 +28,14 @@ private:
 	bool isReversible;
 
 
-public: 
-	Lane(int idx, LaneType type, float width);
+public:
+	Lane(int idx, LaneType type, float width) : index(idx), type(type), width(width), isReversible(false) {}
 
-	int getIndex() const;
-	LaneType getType() const;
-	float getWidth() const;
-	bool isReversible() const;
-	void setReversible(bool reversible);
+	int getIndex() const { return index; }
+	LaneType getType() const { return type; }
+	float getWidth() const { return width; }
+	bool isReversible() const { return isReversible; }
+	void setReversible(bool reversible) { isReversible = reversible; }
 
 	bool canAcceptVehicle(Vehicle* vehicle) const;
 };
