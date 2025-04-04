@@ -7,8 +7,8 @@
 #include <memory>
 
 #include "../core/gameobject.h"
-#include "lane.h"
 #include "../core/vec3.h"
+#include "lane.h"
 
 
 // forward declaration
@@ -60,6 +60,7 @@ public:
 	int getLaneCountAt(float distance) const;
 	bool isValidLane(int laneIndex, float distance) const { return laneIndex >= 0 && laneIndex < getLaneCountAt(distance); }
 	int getTargetLane(int currentLane, float currentDistance, float lookAheadDistance) const;
+	int determineClosestLane(float yPosition) const;
 
 	// get vehicles
 	const std::vector<std::shared_ptr<Vehicle>>& getVehicles() const { return vehicles; }
