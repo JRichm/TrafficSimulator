@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <map>
 
 #include "roadSegment.h"
 #include "junction.h"
