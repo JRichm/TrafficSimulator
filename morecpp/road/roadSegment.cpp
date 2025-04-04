@@ -30,7 +30,11 @@ void RoadSegment::addLaneTransition(float startDist, float endDist, int startLan
 	transition.endDistance = endDist;
 	transition.startLaneCount = startLanes;
 	transition.endLaneCount = endLanes;
-	transition.laneMapping = mapping;
+
+	for (const auto& pair : mapping) {
+		transition.laneMapping[pair.first] = pair.second;
+	}
+
 
 	laneTransitions.push_back(transition);
 }
