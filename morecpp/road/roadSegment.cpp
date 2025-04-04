@@ -171,6 +171,31 @@ int RoadSegment::getTargetLane(int currentLane, float currentDistance, float loo
 }
 
 
+int RoadSegment::determineClosestLane(float yPosition) const {
+	if (lanes.empty()) {
+		return 0;
+	}
+
+	float roadCenterY = getPosition().y;
+
+	float totalWidth = getDimensions().y;
+
+	float topEdge = roadCenterY - totalWidth / 2.0f;
+
+	float laneWidth = totalWidth / getLaneCount();
+
+	float relativeY = yPosition - topEdge;
+	int laneIndex = static_cast<int>(relativeY / laneWidth);
+
+	if (laneIndex < 0) {
+		laneIndex = 0;
+	} else if (laneIndex >= getLaneCount()) {
+		laneIndex = getLaneCount() - 1;
+	}
+
+	return laneIndex;
+}
+
 std::vector<std::shared_ptr<Vehicle>> RoadSegment::getVehiclesInLane(int laneIndex) const {
 	std::vector<std::shared_ptr<Vehicle>> result;
 
