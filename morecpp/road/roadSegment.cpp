@@ -41,6 +41,9 @@ void RoadSegment::addLaneTransition(float startDist, float endDist, int startLan
 
 
 void RoadSegment::addVehicle(std::shared_ptr<Vehicle> vehicle) {
+	float distanceAlongRoad = vehicle->getPosition().x;
+	int lane = determineClosestLane(vehicle->getPosition().y);
+	vehicle->setCurrentRoad(shared_from_this(), distanceAlongRoad, lane);
 	vehicles.push_back(vehicle);
 }
 
