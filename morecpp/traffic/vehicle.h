@@ -5,6 +5,7 @@
 
 #include "../core/gameobject.h"
 #include "../core/vec3.h"
+#include "../road/junction.h"
 #include "../road/roadSegment.h"
 #include "../road/highwayRamp.h"
 
@@ -67,20 +68,20 @@ public:
 	virtual void handleIntersection(std::shared_ptr<Junction> junction);
 	virtual void handleRamp(HighwayRamp* ramp, float deltaTime);
 
-	// getters
-	VehicleType getType() const;
-	VehicleState getState() const;
-	const Vector3& getVelocity() const;
-	std::shared_ptr<RoadSegment> getCurrentRoad() const;
-	float getDistanceAlongRoad() const;
-	int getCurrentLane() const;
-	std::shared_ptr<Destination> getDestination() const;
-	float getCurrentSpeed() const;
-	float getPreferredSpeed() const;
 
-	// setters
-	void setState(VehicleState newState);
-	void setVelocity(const Vector3& vel);
-	void setCurrentSpeed(float speed);
-	void setPreferredSpeed(float speed);
+	VehicleType getType() const { return type; }
+	VehicleState getState() const { return state; }
+	Color getColor() const { return color; }
+	const Vector3& getVelocity() const { return velocity; }
+	std::shared_ptr<RoadSegment> getCurrentRoad() const { return currentRoad; }
+	float getDistanceAlongRoad() const { return distanceAlongRoad; }
+	int getCurrentLane() const { return currentLane; }
+	std::shared_ptr<Destination> getDestination() const { return destination; }
+	float getCurrentSpeed() const { return currentSpeed; }
+	float getPreferredSpeed() const { return preferredSpeed; }
+
+	void setState(VehicleState newState) { state = newState; }
+	void setVelocity(const Vector3& vel) { velocity = vel; }
+	void setCurrentSpeed(float speed) { currentSpeed = std::max(0.0f, std::min(speed, maxSpeed)); }
+	void setPreferredSpeed(float speed) { preferredSpeed = std::max(0.0f, std::min(speed, maxSpeed)); }
 };
