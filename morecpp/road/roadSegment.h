@@ -55,18 +55,20 @@ public:
 	Vector3 getLanePositionAt(int laneIndex, float distance) const;
 
 	// get lanes
+	const std::vector<Lane>& getLanes() const { return lanes; }
 	int getLaneCount() const;
 	int getLaneCountAt(float distance) const;
 	bool isValidLane(int laneIndex, float distance) const { return laneIndex >= 0 && laneIndex < getLaneCountAt(distance); }
 	int getTargetLane(int currentLane, float currentDistance, float lookAheadDistance) const;
 
 	// get vehicles
+	const std::vector<std::shared_ptr<Vehicle>>& getVehicles() const { return vehicles; }
 	std::vector<std::shared_ptr<Vehicle>> getVehiclesInLane(int laneIndex) const;
 	std::vector<std::shared_ptr<Vehicle>> getVehiclesInLaneSection(int laneIndex, float startDist, float endDist) const;
 
-	const std::string& getId() const;
-	float getLength() const;
-	float getSpeedLimit() const;
-	std::shared_ptr<Junction> getStartJunction() const;
-	std::shared_ptr<Junction> getEndJunction() const;
+	const std::string& getId() const { return id; }
+	float getLength() const { return length; }
+	float getSpeedLimit() const { return speedLimit; }
+	std::shared_ptr<Junction> getStartJunction() const { return startJunction.lock(); }
+	std::shared_ptr<Junction> getEndJunction() const { return endJunction.lock(); }
 };

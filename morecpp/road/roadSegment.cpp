@@ -196,27 +196,3 @@ std::vector<std::shared_ptr<Vehicle>> RoadSegment::getVehiclesInLaneSection(int 
 
 	return result;
 }
-
-const std::string& RoadSegment::getId() const {
-	return id;
-}
-
-
-float RoadSegment::getLength() const {
-	return length;
-}
-
-
-float RoadSegment::getSpeedLimit() const {
-	return speedLimit;
-}
-
-
-std::shared_ptr<Junction> RoadSegment::getStartJunction() const {
-	return startJunction.lock();
-}
-
-
-std::shared_ptr<Junction> RoadSegment::getEndJunction() const {
-	return endJunction.lock();
-}
