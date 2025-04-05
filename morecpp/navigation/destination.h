@@ -1,29 +1,28 @@
 #pragma once
 
 
-#include <memory>
 #include <string>
 
 #include "../core/vec3.h"
 
 
-// forward declaration
-class RoadSegment;
-
-
 class Destination {
 private:
-	std::string id;
 	Vector3 position;
-	std::shared_ptr<RoadSegment> connectedRoad;
-	float arrivalDistance;
+	std::string name;
+	float radius;
 
+	
 public:
-	Destination(const std::string& id, const Vector3& pos, std::shared_ptr<RoadSegment> road, float distance)
-	  :	id(id), position(pos), connectedRoad(road), arrivalDistance(distance) {}
+	Destination(const Vector3& pos, const std::string& name, float radius = 10.0f) : position(pos), name(name), radius(radius) {}
 
-	const std::string& getId() const { return id; }
 	const Vector3& getPosition() const { return position; }
-	std::shared_ptr<RoadSegment> getConnectedRoad() const { return connectedRoad; }
-	float getArrivalDistance() const { return arrivalDistance; }
+	const std::string& getName() const { return name; }
+	float getRadius() const { return radius; }
+
+	bool isInRange(const Vector3& pos) const {
+		Vector3 dis = pos - position; 
+
+		return dis.length() <= (radius * radius);
+	}
 };
