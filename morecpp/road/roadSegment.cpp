@@ -95,16 +95,6 @@ void RoadSegment::update(float deltaTime) {
 }
 
 
-Vector3 RoadSegment::getPositionAt(float distance) const {
-	return Vector3(position.x + distance, position.y, position.z);
-}
-
-
-Vector3 RoadSegment::getDirectionAt(float distance) const {
-	return Vector3(1.0f, 0.0f, 0.0f);
-}
-
-
 Vector3 RoadSegment::getLanePositionAt(int laneIndex, float distance) const {
 	if (laneIndex < 0 || laneIndex >= getLaneCountAt(distance)) {
 		return getPositionAt(distance);

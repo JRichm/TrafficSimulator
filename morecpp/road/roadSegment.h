@@ -50,8 +50,8 @@ public:
 	void update(float deltaTime) override;
 
 	// get position and path
-	Vector3 getPositionAt(float distance) const;
-	Vector3 getDirectionAt(float distance) const;
+	Vector3 getPositionAt(float distance) const { return Vector3(position.x + distance, position.y, position.z); }
+	Vector3 getDirectionAt(float distance) const { return Vector3(1.0f, 0.0f, 0.0f); }
 	Vector3 getLanePositionAt(int laneIndex, float distance) const;
 
 	// get lanes
