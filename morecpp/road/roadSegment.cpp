@@ -112,8 +112,125 @@ Vector3 RoadSegment::getLanePositionAt(int laneIndex, float distance) const {
 }
 
 
-int RoadSegment::getLaneCount() const {
-	return lanes.size();
+Vector3 RoadSegment::getDirection() const {
+	auto start = startJunction.lock();
+	auto end = endJunction.lock();
+
+	if (start && end) {
+		Vector3 startPos = start->getPosition();
+		Vector3 endPos = end->getPosition();
+		Vector3 distance = endPos - startPos;
+
+		return distance.normalized();
+	}
+
+	bool isHorizontalRoad = dimensions.x > dimensions.y;
+
+	return isHorizontalRoad ? Vector3(1.0f, 0.0f, 0.0f) : Vector3(0.0f, 1.0f, 0.0f); 
+}
+
+
+Vector3 RoadSegment::getPerpendicular() const {
+	Vector3 dir = getDirection();
+	return Vector3(-dir.y, dir.x, 0.0f);
+}
+
+
+Vector3 RoadSegment::getDirectionVector() const {
+	auto start = startJunction.lock();
+	auto end = endJunction.lock();
+
+	if (start && end) {
+		Vector3 startPos = start->getPosition();
+		Vector3 endPos = end->getPosition();
+		Vector3 dir = endPos - startPos;
+		float magnitude = dir.length();
+		if (magnitude > 0.001f) {
+			return Vector3(
+				dir.x / magnitude,
+				dir.y / magnitude,
+				dir.z / magnitude
+			);
+		}
+	}
+
+	return Vector3(1.0f, 0, 0);
+}
+
+
+Vector3 RoadSegment::getPerpendicularVector() const{
+	Vector3 dir = getDirectionVector();
+	return Vector3(-dir.y, dir.x, 0.0f);
+}
+
+
+Vector3 RoadSegment::getStartPosition() const {
+	if (auto start = startJunction.lock()) {
+		return start->getPosition();
+	}
+	return position;
+}
+
+
+Vector3 RoadSegment::getEndPosition() const {
+	if (auto end = endJunction.lock()) {
+		return end->getPosition();
+	}
+
+	Vector3 dir = getDirectionVector();
+	return position + dir * length;
+}
+
+
+Vector3 RoadSegment::getPositionAlongRoad(float distance) const {
+	Vector3 startPos = getStartPosition();
+	Vector3 dir = getDirectionVector();
+	return startPos + dir * distance;
+}
+
+
+Vector3 RoadSegment::getLanePositionAlongRoad(int laneIndex, float distance) const {
+	Vector3 roadPos = getPositionAlongRoad(distance);
+	Vector3 perpDir = getPerpendicularVector();
+
+	float roadWidth = dimensions.y;
+	int laneCount = getLaneCountAt(distance);
+	float laneWidth = roadWidth / laneCount;
+
+	float laneOffset = (laneIndex - (laneCount - 1) / 2.0f) * laneWidth;
+
+	return roadPos + perpDir * laneOffset;
+}
+
+
+float RoadSegment::getActualLength() const {
+	auto start = startJunction.lock();
+	auto end = endJunction.lock();
+
+	if (start && end) {
+		Vector3 startPos = start->getPosition();
+		Vector3 endPos = end->getPosition();
+		Vector3 distance = endPos - startPos;
+
+		return distance.length();
+	}
+	return length;
+}
+
+
+Vector3 RoadSegment::getWorldPositionAt(int laneIndex, float distance) const {
+	Vector3 roadDir = getDirection();
+	Vector3 perpDir = getPerpendicular();
+
+	Vector3 basePos = position + roadDir * distance;
+
+	float totalWidth = dimensions.y;
+	int laneCount = getLaneCountAt(distance);
+	float laneWidth = totalWidth / laneCount;
+
+	float laneOffset = (laneIndex - (laneCount - 1) / 2.0f) * laneWidth;
+
+	return basePos + perpDir * laneOffset;
 }
 
 
@@ -186,6 +303,7 @@ int RoadSegment::determineClosestLane(float yPosition) const {
 
 	return laneIndex;
 }
+
 
 std::vector<std::shared_ptr<Vehicle>> RoadSegment::getVehiclesInLane(int laneIndex) const {
 	std::vector<std::shared_ptr<Vehicle>> result;

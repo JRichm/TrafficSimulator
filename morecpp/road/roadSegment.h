@@ -53,14 +53,24 @@ public:
 	Vector3 getPositionAt(float distance) const { return Vector3(position.x + distance, position.y, position.z); }
 	Vector3 getDirectionAt(float distance) const { return Vector3(1.0f, 0.0f, 0.0f); }
 	Vector3 getLanePositionAt(int laneIndex, float distance) const;
+	Vector3 getDirection() const;
+	Vector3 getPerpendicular() const;
+	Vector3 getDirectionVector() const;
+	Vector3 getPerpendicularVector() const;
+	Vector3 getStartPosition() const;
+	Vector3 getEndPosition() const;
+	Vector3 getPositionAlongRoad(float distance) const;
+	Vector3 getLanePositionAlongRoad(int laneIndex, float distance) const;
+	float getActualLength() const;
 
 	// get lanes
 	const std::vector<Lane>& getLanes() const { return lanes; }
-	int getLaneCount() const;
+	int getLaneCount() const { return lanes.size(); }
 	int getLaneCountAt(float distance) const;
 	bool isValidLane(int laneIndex, float distance) const { return laneIndex >= 0 && laneIndex < getLaneCountAt(distance); }
 	int getTargetLane(int currentLane, float currentDistance, float lookAheadDistance) const;
 	int determineClosestLane(float yPosition) const;
+	Vector3 getWorldPositionAt(int laneIndex, float distance) const;
 
 	// get vehicles
 	const std::vector<std::shared_ptr<Vehicle>>& getVehicles() const { return vehicles; }
@@ -72,4 +82,5 @@ public:
 	float getSpeedLimit() const { return speedLimit; }
 	std::shared_ptr<Junction> getStartJunction() const { return startJunction.lock(); }
 	std::shared_ptr<Junction> getEndJunction() const { return endJunction.lock(); }
+	virtual bool isCurved() const { return false; }
 };
