@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "../road/roadSegment.h"
+#include "../road/roadNetwork.h"
 
 
 class OpenGLDisplay {
@@ -28,25 +29,19 @@ private:
 
 	// setup
 	void setupRectangleVertices();
-
-	// drawing
 	void drawRectangle(const glm::vec3& position, const glm::vec3& scale, const glm::vec3& color);
-
+	void renderRoadSegment(const RoadSegment& road);
 
 	static void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset);
 	void processScroll(double yoffset);
 
 
 public:
-	OpenGLDisplay(int width = 1280, int height = 720);
+	OpenGLDisplay(int width = 1920, int height = 1080);
 	~OpenGLDisplay();
 
 	bool isOpen() const;
 	bool processEvents();
-	void render(const RoadSegment& network);
-
-	// // camera controls
-	// void moveCamera(const glm::vec3& offset);
-	// void zoomCamera(float factor);
-	// void setCameraTarget(const glm::vec3& target);
+	void render(const RoadSegment& road);
+	void render(const RoadNetwork& network);
 };
