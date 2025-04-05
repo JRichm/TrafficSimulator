@@ -16,43 +16,28 @@ protected:
 	std::string id;
 	Vector3 position;
 	std::vector<std::weak_ptr<RoadSegment>> connectedRoads;
+	float radius;
 
 
 public:
-	Junction(const std::string& id, const Vector3& pos) : id(id), position(pos) {}
-	virtual ~Junction() = default;
+	Junction(const std::string& id, const Vector3& pos, float radius = 10.0f) :
+		id(id), position(pos) {}
 
-	void connectRoad(std::shared_ptr<RoadSegment> road) {
-		connectedRoads.push_back(road);
-	}
-
-	std::vector<std::shared_ptr<RoadSegment>> getConnectedRoads() const {
-		std::vector<std::shared_ptr<RoadSegment>> roads;
-		for (const auto& weakRoad : connectedRoads) {
-			if (auto road = weakRoad.lock()) {
-				roads.push_back(road);
-			}
-		}
-		return roads;
-	}
-
-	virtual std::vector<std::shared_ptr<RoadSegment>> getExitRoads(std::shared_ptr<RoadSegment> entryRoad) const {
-		std::vector<std::shared_ptr<RoadSegment>> exits;
-		for (const auto& weakRoad : connectedRoads) {
-			if (auto road = weakRoad.lock()) {
-				if (road != entryRoad) {
-					exits.push_back(road);
-				}
-			}
-		}
-		return exits;
-	}
-
-	virtual bool canNavigate(std::shared_ptr<RoadSegment> fromRoad, std::shared_ptr<RoadSegment> toRoad, Vehicle* vehicle) = 0;
+	// connect road
+	void connectRoad(std::shared_ptr<RoadSegment> road) { connectedRoads.push_back(road); }
 
 
-	virtual void update(float deltaTime) {}
-
+	// getters
+	int getRoadIndex(std::shared_ptr<RoadSegment> road) const;
+	float getRadius() const { return radius; }
 	const std::string& getId() const { return id; }
 	const Vector3& getPosition() const { return position; }
+	std::vector<std::shared_ptr<RoadSegment>> getConnectedRoads() const;
+
+
+	// virtual declarations
+	virtual ~Junction() = default;
+	virtual std::vector<std::shared_ptr<RoadSegment>> getExitRoads(std::shared_ptr<RoadSegment> entryRoad) const;
+	virtual bool canNavigate(std::shared_ptr<RoadSegment> fromRoad, std::shared_ptr<RoadSegment> toRoad, Vehicle* vehicle) = 0;
+	virtual void update(float deltaTime) {}
 };
