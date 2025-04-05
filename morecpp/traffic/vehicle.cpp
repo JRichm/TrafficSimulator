@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <random>
 #include <cmath>
+#include <iostream>
 
 #include "vehicle.h"
 #include "../navigation/routeManager.h"
@@ -112,23 +113,8 @@ void Vehicle::setDestination(std::shared_ptr<Destination> dest) {
 	destination = dest;
 
 	if (dest && currentRoad) {
-		planRoute();
+		std::cout << "need plan_route() function" << std::endl;
 	}
-}
-
-
-void Vehicle::planRoute() {
-	if (!destination || !currentRoad) {
-		return;
-	}
-
-	static RouteManager routeManager;
-
-	plannedRoute = routeManager.findPath(
-		currentRoad,
-		distanceAlongRoad,
-		destination
-	);
 }
 
 

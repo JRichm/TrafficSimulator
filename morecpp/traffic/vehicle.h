@@ -60,7 +60,6 @@ public:
 
 	void setCurrentRoad(std::shared_ptr<RoadSegment> road, float distance, int lane);
 	void setDestination(std::shared_ptr<Destination> dest);
-	void planRoute();
 
 	virtual void adjustSpeedForTraffic(const std::vector<std::shared_ptr<Vehicle>>& nearbyCars, float deltaTime);
 	virtual bool shouldChangeLane(const std::vector<std::shared_ptr<Vehicle>>& nearbyCars);
