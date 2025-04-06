@@ -6,6 +6,7 @@
 
 #include "../road/roadSegment.h"
 #include "../road/roadNetwork.h"
+#include "../road/trafficLightJunction.h"
 
 
 class OpenGLDisplay {
@@ -31,6 +32,8 @@ private:
 	void setupRectangleVertices();
 	void drawRectangle(const glm::vec3& position, const glm::vec3& scale, const glm::vec3& color);
 	void renderRoadSegment(const RoadSegment& road);
+	void renderJunction(const Junction& junction);
+	void renderTrafficLights(const TrafficLightJunction& junction);
 
 	static void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset);
 	void processScroll(double yoffset);
