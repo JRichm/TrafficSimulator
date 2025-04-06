@@ -36,7 +36,6 @@ void RoadSegment::addLaneTransition(float startDist, float endDist, int startLan
 		transition.laneMapping[pair.first] = pair.second;
 	}
 
-
 	laneTransitions.push_back(transition);
 }
 
@@ -58,7 +57,12 @@ void RoadSegment::update(float deltaTime) {
 
 	// loop through vehicles in this segment
 	for (auto it = vehicles.begin(); it != vehicles.end();) {
-		auto vehicle = *it;
+		auto& vehicle = *it;
+
+		if (!vehicle) {
+			it = vehicles.erase(it);
+			continue;
+		}
 
 		float prevDistance = vehicle->getDistanceAlongRoad();
 		vehicle->update(deltaTime);
@@ -85,7 +89,7 @@ void RoadSegment::update(float deltaTime) {
 				}
 			} else {
 
-				// no junctions at the end, vehicles has nowhere to go
+				// no junctions at the end
 				++it;
 			}
 		} else {
@@ -96,9 +100,8 @@ void RoadSegment::update(float deltaTime) {
 
 
 Vector3 RoadSegment::getLanePositionAt(int laneIndex, float distance) const {
-	if (laneIndex < 0 || laneIndex >= getLaneCountAt(distance)) {
-		return getPositionAt(distance);
-	}
+	Vector3 roadPos = getPositionAlongRoad(distance);
+	Vector3 perpDir = getPerpendicularVector();
 
 	float totalWidth = dimensions.y;
 	int laneCount = getLaneCountAt(distance);
@@ -106,9 +109,7 @@ Vector3 RoadSegment::getLanePositionAt(int laneIndex, float distance) const {
 
 	float laneOffset = (laneIndex - (laneCount - 1) / 2.0f) * laneWidth;
 
-	Vector3 basePos = getPositionAt(distance);
-
-	return Vector3(basePos.x, basePos.y + laneOffset, basePos.z);
+	return roadPos + perpDir * laneOffset;
 }
 
 
