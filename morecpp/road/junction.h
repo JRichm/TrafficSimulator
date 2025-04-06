@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <unordered_map>
+
 #include "../core/vec3.h"
 
 
@@ -17,14 +19,14 @@ protected:
 	Vector3 position;
 	std::vector<std::weak_ptr<RoadSegment>> connectedRoads;
 	float radius;
-
+	std::unordered_map<std::string, float> roadAngles;
 
 public:
 	Junction(const std::string& id, const Vector3& pos, float radius = 10.0f) :
 		id(id), position(pos) , radius(radius) {}
 
 	// connect road
-	virtual void connectRoad(std::shared_ptr<RoadSegment> road) { connectedRoads.push_back(road); }
+	virtual void connectRoad(std::shared_ptr<RoadSegment> road);
 
 
 	// getters
@@ -33,6 +35,7 @@ public:
 	const std::string& getId() const { return id; }
 	const Vector3& getPosition() const { return position; }
 	std::vector<std::shared_ptr<RoadSegment>> getConnectedRoads() const;
+	float getAngleBetweenRoads(std::shared_ptr<RoadSegment> fromRoad, std::shared_ptr<RoadSegment> toRoad) const;
 
 
 	// virtual declarations

@@ -123,6 +123,15 @@ std::vector<std::shared_ptr<RoadSegment>> RoadNetwork::getAllRoadSegments() cons
 }
 
 
+std::vector<std::shared_ptr<Junction>> RoadNetwork::getAllJunctions() const {
+    std::vector<std::shared_ptr<Junction>> result;
+    for (const auto& [id, junction] : junctions) {
+        result.push_back(junction);
+    }
+    return result;
+}
+
+
 bool RoadNetwork::connectRoads(const std::string& roadId1, const std::string& roadId2, const std::string& junctionId) {
     auto road1 = getRoadSegment(roadId1);
     auto road2 = getRoadSegment(roadId2);
@@ -214,7 +223,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
         for (int y = 0; y < gridHeight;y++) {
             std::string roadId = "road_v_" + std::to_string(x) + "_" + std::to_string(y);
             Vector3 startPos(x * roadLength, y * roadLength, 0);
-            Vector3 dimensions(roadWidth, roadWidth, 0);
+            Vector3 dimensions(roadWidth, roadLength, 0);
 
             auto road = std::make_shared<RoadSegment>(roadId, startPos, dimensions, speedLimit);
 

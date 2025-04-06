@@ -227,7 +227,7 @@ void Vehicle::handleIntersection(std::shared_ptr<Junction> junction) {
 		if (nextRoad->getLaneCount() > 1) {
 			std::random_device rd;
 			std::mt19937 gen(rd());
-			std::uniform_int_distribution<> distrib(0, nextRoad->getLaneCount() - 1);
+			std::uniform_int_distribution<> distrib(1, nextRoad->getLaneCount() - 2);
 			nextLane = distrib(gen);
 		}
 
