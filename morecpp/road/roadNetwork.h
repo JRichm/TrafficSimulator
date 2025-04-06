@@ -28,6 +28,7 @@ public:
 	std::shared_ptr<Junction> getJunction(const std::string& id);
 	std::shared_ptr<RoadSegment> getRoadSegment(const std::string& id);
 	std::vector<std::shared_ptr<RoadSegment>> getAllRoadSegments() const;
+	std::vector<std::shared_ptr<Junction>> getAllJunctions() const;
 
 	void update(float deltaTime);
 	void generateTraffic(float deltaTime);
