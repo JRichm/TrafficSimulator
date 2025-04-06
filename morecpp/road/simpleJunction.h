@@ -5,6 +5,9 @@
 
 class SimpleJunction : public Junction {
 public:
+    SimpleJunction(const std::string& id, const Vector3& pos)
+        : Junction(id, pos) {}
+
     SimpleJunction(const std::string& id, const Vector3& pos, float radius)
         : Junction(id, pos, radius) {}
 
