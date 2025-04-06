@@ -208,7 +208,68 @@ void OpenGLDisplay::render(const RoadNetwork& network) {
         renderRoadSegment(*road);
     }
 
+    auto junctions = network.getAllJunctions();
+    for (const auto& junction : junctions) {
+        renderJunction(*junction);
+    }
+
     glfwSwapBuffers(window);
+}
+
+
+void OpenGLDisplay::renderJunction(const Junction& junction) {
+    const Vector3& junctionPos = junction.getPosition();
+    float radius = junction.getRadius();
+
+    glm::vec3 position(junctionPos.x, 0.01f, junctionPos.z);
+    glm::vec3 scale(radius * 2, 0.5f, radius * 2);
+
+    glm::vec3 color(0.4f, 0.4f, 0.4f);
+
+    // color for traffic light
+    const TrafficLightJunction* trafficJunction = dynamic_cast<const TrafficLightJunction*>(&junction);
+    if (trafficJunction) {
+        color = glm::vec3(0.5f, 0.5f, 0.6f);
+    }
+
+    drawRectangle(position, scale, color);
+
+    // render traffic lights
+    if (trafficJunction) {
+        renderTrafficLights(*trafficJunction);
+    }
+}
+
+
+void OpenGLDisplay::renderTrafficLights(const TrafficLightJunction& junction) {
+    // loop through roads in junction
+    for (const auto& road : junction.getConnectedRoads()) {
+
+        // get entry poiint
+        Vector3 entryPoint = junction.getEntryPoint(road);
+
+        // get traffic light state
+        LightState state = junction.getLightState(road);
+
+        // set color
+        glm::vec3 lightColor;
+        switch (state) {
+        case LightState::GREEN:
+            lightColor = glm::vec3(0.0f, 1.0f, 0.0f);
+            break;
+        case LightState::YELLOW:
+            lightColor = glm::vec3(1.0f, 1.0f, 0.0f);
+            break;
+        case LightState::RED:
+            lightColor = glm::vec3(1.0f, 0.0f, 0.0f);
+            break;
+        }
+
+        // draw the traffic light
+        glm::vec3 lightPos(entryPoint.x, 0.5f, entryPoint.z);
+        glm::vec3 lightScale(2.0f, 2.0f, 2.0f);
+        drawRectangle(lightPos, lightScale, lightColor);
+    }
 }
 
 
@@ -218,18 +279,18 @@ void OpenGLDisplay::renderRoadSegment(const RoadSegment& road) {
     Vector3 endPos = road.getEndPosition();
 
     // get directions
-    Vector3 roadDir = road.getDirectionVector();
-    Vector3 perpDir = road.getPerpendicularVector();
+    Vector3 roadDir = endPos - startPos;
+    float roadLength = roadDir.length();
+    roadDir = roadDir.normalized();
+
+    float roadWidth = road.getDimensions().y;
 
     // get center of road
     glm::vec3 roadCenter(
         (startPos.x + endPos.x) / 2.0f,
-        0.0f,
+        0.01f,
         (startPos.y + endPos.y) / 2.0f
     );
-
-    float roadLength = road.getActualLength();
-    float roadWidth = road.getDimensions().y;
 
     // get orientation
     float angle = atan2(roadDir.y, roadDir.x) * 180.0f / 3.14159f;
@@ -238,9 +299,7 @@ void OpenGLDisplay::renderRoadSegment(const RoadSegment& road) {
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, roadCenter);
     model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::vec3 roadScale(roadLength, 1.0f, roadWidth);
-    model = glm::scale(model, roadScale);
-
+    model = glm::scale(model, glm::vec3(roadLength, 1.0f, roadWidth));
 
     // draw road
     GLuint modelLoc = glGetUniformLocation(shaderProgram, "model");
