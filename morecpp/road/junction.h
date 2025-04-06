@@ -21,10 +21,10 @@ protected:
 
 public:
 	Junction(const std::string& id, const Vector3& pos, float radius = 10.0f) :
-		id(id), position(pos) {}
+		id(id), position(pos) , radius(radius) {}
 
 	// connect road
-	void connectRoad(std::shared_ptr<RoadSegment> road) { connectedRoads.push_back(road); }
+	virtual void connectRoad(std::shared_ptr<RoadSegment> road) { connectedRoads.push_back(road); }
 
 
 	// getters
