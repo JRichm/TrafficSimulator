@@ -38,6 +38,6 @@ public:
 	}
 
 	float length() const {
-		return std::sqrt(x * x + y * y + z * z);
+		return sqrt(x * x + y * y + z * z);
 	}
 };
