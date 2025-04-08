@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../util/shader_loader.h"
+#include "../shaders/shader_loader.h"
 #include "../traffic/vehicle.h"
 
 
