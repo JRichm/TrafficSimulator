@@ -9,6 +9,7 @@
 #include "../traffic/vehicle.h"
 
 
+ViewController* ViewController::currentInstance = nullptr;
 
 ViewController::ViewController(int width, int height) : simulationModel(nullptr) {
     if (!glfwInit()) {
@@ -52,6 +53,22 @@ ViewController::ViewController(int width, int height) : simulationModel(nullptr)
     cameraPos = glm::vec3(0.0f, 100.0f, 0.0f);
     cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
     cameraUp = glm::vec3(0.0f, 0.0f, -1.0f);
+}
+
+
+ViewController::~ViewController() {
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(shaderProgram);
+
+    if (window) {
+        glfwDestroyWindow(window);
+    }
+
+    if (currentInstance == this) {
+        glfwTerminate();
+        currentInstance = nullptr;
+    }
 }
 
 
