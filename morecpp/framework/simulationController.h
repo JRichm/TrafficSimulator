@@ -4,7 +4,7 @@
 #include "viewController.h"
 
 
-class simulationController {
+class SimulationController {
 private:
 	SimulationModel model;
 	ViewController view;
@@ -15,12 +15,11 @@ private:
 	int maxFrames = 0;
 
 public:
-	simulationController();
+	SimulationController();
 
 	void init();
 	void run(int maxIterations = 0);
-	void stop();
+	void stop() { running = false; }
 	void runCustomNetworkSimulation();
 	void runGridNetwrokSimulation(int width, int height);
 };
-
