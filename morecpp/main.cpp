@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "ui/openGLGameLoop.h"
 #include "framework/simulationController.h"
 
 
