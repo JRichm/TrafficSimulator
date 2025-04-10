@@ -290,6 +290,11 @@ void ViewController::renderTrafficLights(const TrafficLightJunction& junction) {
 
 
 void ViewController::renderRoadSegment(const RoadSegment& road) {
+
+    float zoomFactor = (orthographicRight - orthographicLeft) / 240.0f;
+    float minLineThickness = 0.2f * zoomFactor;
+    float minLineWidth = 0.5f * zoomFactor;
+
     // get start/end positions
     Vector3 startPos = road.getStartPosition();
     Vector3 endPos = road.getEndPosition();
@@ -347,7 +352,7 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
             model = glm::translate(model, roadCenter);
             model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
             model = glm::translate(model, glm::vec3(0.0f, 0.05f, lanePosition));
-            model = glm::scale(model, glm::vec3(roadLength, 0.2f, 0.2f));
+            model = glm::scale(model, glm::vec3(roadLength, std::max(0.2f, minLineThickness), std::max(0.2f, minLineWidth)));
 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glUniform3fv(colorLoc, 1, glm::value_ptr(lineColor));
@@ -372,7 +377,7 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
                 model = glm::translate(model, roadCenter);
                 model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
                 model = glm::translate(model, glm::vec3(dashOffset, 0.05f, lanePosition));
-                model = glm::scale(model, glm::vec3(dashLength, 0.1f, 0.5f));
+                model = glm::scale(model, glm::vec3(dashLength, std::max(0.1f, minLineThickness), std::max(0.5f, minLineWidth)));
 
                 glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
                 glUniform3fv(colorLoc, 1, glm::value_ptr(lineColor));
