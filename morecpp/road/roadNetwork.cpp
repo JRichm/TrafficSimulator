@@ -223,7 +223,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
         for (int y = 0; y < gridHeight;y++) {
             std::string roadId = "road_v_" + std::to_string(x) + "_" + std::to_string(y);
             Vector3 startPos(x * roadLength, y * roadLength, 0);
-            Vector3 dimensions(roadWidth, roadLength, 0);
+            Vector3 dimensions(roadLength, roadWidth, 0);
 
             auto road = std::make_shared<RoadSegment>(roadId, startPos, dimensions, speedLimit);
 
