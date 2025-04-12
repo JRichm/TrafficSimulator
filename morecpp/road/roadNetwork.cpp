@@ -180,10 +180,14 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             std::cout << "(" << x << ", " << y << ")" << std::endl;
 
             std::string roadId = "road_h_" + std::to_string(x) + "_" + std::to_string(y);
-            Vector3 startPos(x * roadLength, y * roadLength, 0);
-            Vector3 dimensions(roadLength, roadWidth, 0);
 
-            auto road = std::make_shared<RoadSegment>(roadId, startPos, dimensions, speedLimit);
+            std::string startJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y);
+            std::string endJunctionId = "junction_" + std::to_string(x + 1) + "_" + std::to_string(y);
+
+            auto startJunction = getJunction(startJunctionId);
+            auto endJunction = getJunction(endJunctionId);
+
+            auto road = std::make_shared<RoadSegment>(roadId, startJunction->getPosition(), Vector3(roadLength, roadWidth, 0), speedLimit);
 
             // add lanes
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
@@ -191,13 +195,6 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             road->addLane(Lane(2, LaneType::REGULAR, 4.0f));
             road->addLane(Lane(3, LaneType::REGULAR, 4.0f));
             road->addLane(Lane(4, LaneType::SHOULDER, 2.0f));
-
-            // connect junctions
-            std::string startJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y);
-            std::string endJunctionId = "junction_" + std::to_string(x + 1) + "_" + std::to_string(y);
-
-            auto startJunction = getJunction(startJunctionId);
-            auto endJunction = getJunction(endJunctionId);
 
             road->setJunctions(startJunction, endJunction);
             startJunction->connectRoad(road);
@@ -222,10 +219,13 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
     for (int x = 0; x <= gridWidth; x++) {
         for (int y = 0; y < gridHeight;y++) {
             std::string roadId = "road_v_" + std::to_string(x) + "_" + std::to_string(y);
-            Vector3 startPos(x * roadLength, y * roadLength, 0);
-            Vector3 dimensions(roadLength, roadWidth, 0);
 
-            auto road = std::make_shared<RoadSegment>(roadId, startPos, dimensions, speedLimit);
+            std::string startJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y);
+            std::string endJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y + 1);
+            auto startJunction = getJunction(startJunctionId);
+            auto endJunction = getJunction(endJunctionId);
+
+            auto road = std::make_shared<RoadSegment>(roadId, startJunction->getPosition(), Vector3(roadLength, roadWidth, 0), speedLimit);
 
             // add lanes
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
@@ -235,12 +235,6 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             road->addLane(Lane(4, LaneType::SHOULDER, 2.0f));
 
             // connect junctions
-            std::string startJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y);
-            std::string endJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y + 1);
-
-            auto startJunction = getJunction(startJunctionId);
-            auto endJunction = getJunction(endJunctionId);
-
             road->setJunctions(startJunction, endJunction);
             startJunction->connectRoad(road);
             endJunction->connectRoad(road);
