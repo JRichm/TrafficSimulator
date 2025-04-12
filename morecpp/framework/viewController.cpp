@@ -295,32 +295,53 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
     float minLineThickness = 0.2f * zoomFactor;
     float minLineWidth = 0.5f * zoomFactor;
 
+    auto startJunction = road.getStartJunction();
+    auto endJunction = road.getEndJunction();
+
+    // return if no start or end junction
+    if (!startJunction || !endJunction) {
+        return;
+    }
+
     // get start/end positions
-    Vector3 startPos = road.getStartPosition();
-    Vector3 endPos = road.getEndPosition();
+    Vector3 startPos = startJunction->getPosition();
+    Vector3 endPos = endJunction->getPosition();
+    float junctionRadius = startJunction->getRadius();
 
-    // get directions
+    // get direction and length
     Vector3 roadDir = endPos - startPos;
-    float roadLength = roadDir.length();
     roadDir = roadDir.normalized();
+    float fullLength = roadDir.length();
 
-    float roadWidth = road.getDimensions().y;
+    Vector3 adjustedStartPos = startPos + roadDir * junctionRadius;
+    Vector3 adjustedEndPos = endPos - roadDir * junctionRadius;
+
+    Vector3 adjustedRoadDir = adjustedEndPos - adjustedStartPos;
+    float adjustedLength = adjustedRoadDir.length();
+   
+    if (adjustedLength <= 0.001f) {
+        return;
+    }
 
     // get center of road
     glm::vec3 roadCenter(
-        (startPos.x + endPos.x) / 2.0f,
+        (adjustedStartPos.x + adjustedEndPos.x) / 2.0f,
         0.01f,
-        (startPos.y + endPos.y) / 2.0f
+        (adjustedStartPos.z + adjustedEndPos.z) / 2.0f
     );
+
+    // get road width
+    float roadWidth = road.getDimensions().y;
 
     // get orientation
     float angle = atan2(roadDir.y, roadDir.x) * 180.0f / 3.14159f;
+
 
     // transformation matrix
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, roadCenter);
     model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(roadLength, 1.0f, roadWidth));
+    model = glm::scale(model, glm::vec3(adjustedLength, 1.0f, roadWidth));
 
     // draw road
     GLuint modelLoc = glGetUniformLocation(shaderProgram, "model");
@@ -352,7 +373,7 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
             model = glm::translate(model, roadCenter);
             model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
             model = glm::translate(model, glm::vec3(0.0f, 0.05f, lanePosition));
-            model = glm::scale(model, glm::vec3(roadLength, std::max(0.2f, minLineThickness), std::max(0.2f, minLineWidth)));
+            model = glm::scale(model, glm::vec3(adjustedLength, std::max(0.2f, minLineThickness), std::max(0.2f, minLineWidth)));
 
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glUniform3fv(colorLoc, 1, glm::value_ptr(lineColor));
@@ -367,11 +388,11 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
             float gapLength = 7.0f;
             float spacing = dashLength + gapLength;
 
-            int dashCount = static_cast<int>(roadLength / spacing) + 1;
+            int dashCount = static_cast<int>(adjustedLength / spacing) + 1;
 
             // draw lines
             for (int dashIdx = 0; dashIdx < dashCount; dashIdx++) {
-                float dashOffset = -roadLength / 2 + dashIdx * spacing + dashLength / 2;
+                float dashOffset = -adjustedLength / 2 + dashIdx * spacing + dashLength / 2;
 
                 model = glm::mat4(1.0f);
                 model = glm::translate(model, roadCenter);
