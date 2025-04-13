@@ -6,7 +6,7 @@
 int main() {
     SimulationController controller;
     controller.init();
-    controller.runGridNetwrokSimulation(2, 2);
+    controller.runGridNetwrokSimulation(3, 3);
 
     return 0;
 }

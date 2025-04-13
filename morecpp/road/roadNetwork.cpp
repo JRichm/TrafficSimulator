@@ -217,7 +217,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
     // vert roads
     std::cout << "creating vertical roads" << std::endl;
     for (int x = 0; x <= gridWidth; x++) {
-        for (int y = 0; y < gridHeight;y++) {
+        for (int y = 0; y < gridHeight; y++) {
             std::string roadId = "road_v_" + std::to_string(x) + "_" + std::to_string(y);
 
             std::string startJunctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y);
