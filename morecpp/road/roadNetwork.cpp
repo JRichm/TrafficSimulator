@@ -166,7 +166,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
     for (int x = 0; x <= gridWidth; x++) {
         for (int y = 0; y <= gridHeight; y++) {
             std::string junctionId = "junction_" + std::to_string(x) + "_" + std::to_string(y);
-            Vector3 position(x * roadLength, y * roadLength, 0);
+            Vector3 position(x * roadLength, 0, y * roadLength);
             auto junction = std::make_shared<SimpleJunction>(junctionId, position);
             addJunction(junction);
         }

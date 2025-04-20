@@ -334,7 +334,7 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
     float roadWidth = road.getDimensions().y;
 
     // get orientation
-    float angle = atan2(roadDir.y, roadDir.x) * 180.0f / 3.14159f;
+    float angle = atan2(roadDir.z, roadDir.x) * 180.0f / 3.14159f;
 
 
     // transformation matrix
@@ -431,7 +431,7 @@ void ViewController::renderVehicle(const Vehicle& vehicle, const RoadSegment& ro
 
     // get road direction for orientation
     Vector3 roadDir = road.getDirection();
-    float angle = atan2(roadDir.y, roadDir.x) * 180.0f / 3.14159f;
+    float angle = atan2(roadDir.z, roadDir.x) * 180.0f / 3.14159f;
 
     // transformation matrix
     glm::mat4 model = glm::mat4(1.0f);
