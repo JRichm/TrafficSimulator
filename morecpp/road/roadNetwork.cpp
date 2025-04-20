@@ -193,8 +193,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
             road->addLane(Lane(1, LaneType::REGULAR, 4.0f));
             road->addLane(Lane(2, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(3, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(4, LaneType::SHOULDER, 2.0f));
+            road->addLane(Lane(3, LaneType::SHOULDER, 2.0f));
 
             road->setJunctions(startJunction, endJunction);
             startJunction->connectRoad(road);
@@ -231,8 +230,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
             road->addLane(Lane(1, LaneType::REGULAR, 4.0f));
             road->addLane(Lane(2, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(3, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(4, LaneType::SHOULDER, 2.0f));
+            road->addLane(Lane(3, LaneType::SHOULDER, 2.0f));
 
             // connect junctions
             road->setJunctions(startJunction, endJunction);
