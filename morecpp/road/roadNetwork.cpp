@@ -98,7 +98,7 @@ void RoadNetwork::generateTraffic(float deltaTime) {
 
             auto car = std::make_shared<Car>(
                 spawnPosition,
-                Vector3(4.0f, 2.0f, 1.0f),
+                Vector3(4.0f, 0.2f, 2.0f),
                 Color(colorDist(gen), colorDist(gen), colorDist(gen)),
                 speedDist(gen)
             );

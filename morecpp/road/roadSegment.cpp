@@ -103,7 +103,7 @@ Vector3 RoadSegment::getLanePositionAt(int laneIndex, float distance) const {
 	Vector3 roadPos = getPositionAlongRoad(distance);
 	Vector3 perpDir = getPerpendicularVector();
 
-	float totalWidth = dimensions.y;
+	float totalWidth = dimensions.z;
 	int laneCount = getLaneCountAt(distance);
 	float laneWidth = totalWidth / laneCount;
 
@@ -127,13 +127,13 @@ Vector3 RoadSegment::getDirection() const {
 
 	bool isHorizontalRoad = dimensions.x > dimensions.y;
 
-	return isHorizontalRoad ? Vector3(1.0f, 0.0f, 0.0f) : Vector3(0.0f, 1.0f, 0.0f); 
+	return isHorizontalRoad ? Vector3(1.0f, 0.0f, 0.0f) : Vector3(0.0f, 0.0f, 1.0f); 
 }
 
 
 Vector3 RoadSegment::getPerpendicular() const {
 	Vector3 dir = getDirection();
-	return Vector3(-dir.y, dir.x, 0.0f);
+	return Vector3(-dir.z, 0.0f, dir.x);
 }
 
 

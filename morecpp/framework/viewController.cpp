@@ -435,9 +435,9 @@ void ViewController::renderVehicle(const Vehicle& vehicle, const RoadSegment& ro
 
     // transformation matrix
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(vehiclePos.x, 0.02f, vehiclePos.y));
+    model = glm::translate(model, glm::vec3(vehiclePos.x, 0.02f, vehiclePos.z));
     model = glm::rotate(model, glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(vehicleDim.x, 1.0f, vehicleDim.y));
+    model = glm::scale(model, glm::vec3(vehicleDim.x, 1.0f, vehicleDim.z));
 
     GLuint modelLoc = glGetUniformLocation(shaderProgram, "model");
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
