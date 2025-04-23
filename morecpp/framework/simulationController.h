@@ -21,5 +21,5 @@ public:
 	void run(int maxIterations = 0);
 	void stop() { running = false; }
 	void runCustomNetworkSimulation();
-	void runGridNetwrokSimulation(int width, int height);
+	void runGridNetwrokSimulation(int width, int height, int numLanes);
 };

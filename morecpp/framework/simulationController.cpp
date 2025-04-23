@@ -47,7 +47,7 @@ void SimulationController::runCustomNetworkSimulation() {
 }
 
 
-void SimulationController::runGridNetwrokSimulation(int width, int height) {
-	model.buildGridNetwork(width, height);
+void SimulationController::runGridNetwrokSimulation(int width, int height, int numLanes) {
+	model.buildGridNetwork(width, height, numLanes);
 	run();
 }

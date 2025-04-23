@@ -108,6 +108,6 @@ void SimulationModel::buildCustomNetwork() {
 };
 
 
-void SimulationModel::buildGridNetwork(int width, int height, float roadLength, float roadWidth, float speedLimit) {
-    roadNetwork.buildNetwork(width, height, roadLength, roadWidth, speedLimit);
+void SimulationModel::buildGridNetwork(int width, int height, int numLanes, float roadLength, float roadWidth, float speedLimit) {
+    roadNetwork.buildNetwork(width, height, numLanes, roadLength, roadWidth, speedLimit);
 }

@@ -17,7 +17,7 @@ public:
 	
 	// generate different networks
 	void buildCustomNetwork();
-	void buildGridNetwork(int width, int height, float roadLength = 400.0f, float roadWidth = 32.0f, float speedLimit = 10.0f);
+	void buildGridNetwork(int width, int height, int numLanes, float roadLength = 400.0f, float roadWidth = 32.0f, float speedLimit = 10.0f);
 
 
 	// getters

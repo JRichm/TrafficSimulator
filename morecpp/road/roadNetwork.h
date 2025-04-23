@@ -34,5 +34,5 @@ public:
 	void generateTraffic(float deltaTime);
 
 	bool connectRoads(const std::string& roadId1, const std::string& roadId2, const std::string& junctionId);
-	void buildNetwork(int gridWidth, int gridHeight, float roadLength, float roadWidth, float speedLimit);
+	void buildNetwork(int gridWidth, int gridHeight, int numLanes, float roadLength, float roadWidth, float speedLimit);
 };

@@ -151,7 +151,7 @@ bool RoadNetwork::connectRoads(const std::string& roadId1, const std::string& ro
 }
 
 
-void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, float roadWidth, float speedLimit) {
+void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, int numLanes, float roadLength, float roadWidth, float speedLimit) {
     std::cout << "Building network with dimensions: " << gridWidth << "x" << gridHeight << std::endl;
     
     // start with clean network
@@ -191,9 +191,10 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
 
             // add lanes
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
-            road->addLane(Lane(1, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(2, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(3, LaneType::SHOULDER, 2.0f));
+            for (int i = 0; i < numLanes; i++) {
+                road->addLane(Lane(i + 1, LaneType::REGULAR, 4.0f));
+            }
+            road->addLane(Lane(numLanes + 1, LaneType::SHOULDER, 2.0f));
 
             road->setJunctions(startJunction, endJunction);
             startJunction->connectRoad(road);
@@ -228,9 +229,10 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
 
             // add lanes
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
-            road->addLane(Lane(1, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(2, LaneType::REGULAR, 4.0f));
-            road->addLane(Lane(3, LaneType::SHOULDER, 2.0f));
+            for (int i = 0; i < numLanes; i++) {
+                road->addLane(Lane(i + 1, LaneType::REGULAR, 4.0f));
+            }
+            road->addLane(Lane(numLanes + 1, LaneType::SHOULDER, 2.0f));
 
             // connect junctions
             road->setJunctions(startJunction, endJunction);
