@@ -80,7 +80,7 @@ void ViewController::scrollCallBack(GLFWwindow* window, double xOffset, double y
 
 
 void ViewController::processScroll(double yOffset) {
-    float zoomSensitivity = 5.0f;
+    float zoomSensitivity = 10.0f;
     float zoomFactor = 1.0f + (-yOffset * zoomSensitivity / 100.0f);
 
     orthographicLeft *= zoomFactor;
@@ -151,7 +151,11 @@ bool ViewController::processEvents() {
         return false;
     }
 
-    float cameraSpeed = 1.0f;
+    float baseCameraSpeed = 1.0f;
+
+    float zoomLevel = getCurrentZoomLevel();
+    float cameraSpeed = baseCameraSpeed * zoomLevel;
+
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
         cameraPos.z -= cameraSpeed;
@@ -181,8 +185,10 @@ bool ViewController::processEvents() {
 
 
 void ViewController::moveCamera(float deltaX, float deltaY) {
-    cameraPos.x += deltaX;
-    cameraPos.z += deltaY;
+    float zoomLevel = getCurrentZoomLevel();
+
+    cameraPos.x += deltaX * zoomLevel;
+    cameraPos.z += deltaY * zoomLevel;
     cameraTarget.x = cameraPos.x;
     cameraTarget.z = cameraPos.z;
     cameraTarget.y = 0.0f;
@@ -451,4 +457,8 @@ void ViewController::renderVehicle(const Vehicle& vehicle, const RoadSegment& ro
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
+}
+
+float ViewController::getCurrentZoomLevel() const {
+    return (orthographicRight - orthographicLeft) / 200.0f;
 }

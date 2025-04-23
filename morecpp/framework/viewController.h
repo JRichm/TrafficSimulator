@@ -38,6 +38,7 @@ private:
 
 	static void scrollCallBack(GLFWwindow* window, double xOffset, double yOffset);
 	void processScroll(double yOffset);
+	float getCurrentZoomLevel() const;
 
 
 public:
