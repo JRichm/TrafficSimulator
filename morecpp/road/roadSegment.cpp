@@ -41,8 +41,14 @@ void RoadSegment::addLaneTransition(float startDist, float endDist, int startLan
 
 
 void RoadSegment::addVehicle(std::shared_ptr<Vehicle> vehicle) {
-	float distanceAlongRoad = vehicle->getPosition().x;
-	int lane = determineClosestLane(vehicle->getPosition().y);
+	Vector3 dir = getDirectionVector();
+	Vector3 vehiclePos = vehicle->getPosition();
+	Vector3 startPos = getStartPosition();
+	Vector3 relativePos = vehiclePos - startPos;
+
+	float distanceAlongRoad = relativePos.dot(dir);
+	int lane = determineClosestLane(vehicle->getPosition().z);
+
 	vehicle->setCurrentRoad(shared_from_this(), distanceAlongRoad, lane);
 	vehicles.push_back(vehicle);
 }
@@ -125,9 +131,7 @@ Vector3 RoadSegment::getDirection() const {
 		return distance.normalized();
 	}
 
-	bool isHorizontalRoad = dimensions.x > dimensions.y;
-
-	return isHorizontalRoad ? Vector3(1.0f, 0.0f, 0.0f) : Vector3(0.0f, 0.0f, 1.0f); 
+	return Vector3(1.0f, 0.0f, 0.0f);
 }
 
 
@@ -161,7 +165,7 @@ Vector3 RoadSegment::getDirectionVector() const {
 
 Vector3 RoadSegment::getPerpendicularVector() const{
 	Vector3 dir = getDirectionVector();
-	return Vector3(-dir.y, dir.x, 0.0f);
+	return Vector3(-dir.z, 0.0f, dir.x);
 }
 
 
@@ -194,7 +198,7 @@ Vector3 RoadSegment::getLanePositionAlongRoad(int laneIndex, float distance) con
 	Vector3 roadPos = getPositionAlongRoad(distance);
 	Vector3 perpDir = getPerpendicularVector();
 
-	float roadWidth = dimensions.y;
+	float roadWidth = dimensions.z;
 	int laneCount = getLaneCountAt(distance);
 	float laneWidth = roadWidth / laneCount;
 
@@ -225,7 +229,7 @@ Vector3 RoadSegment::getWorldPositionAt(int laneIndex, float distance) const {
 
 	Vector3 basePos = position + roadDir * distance;
 
-	float totalWidth = dimensions.y;
+	float totalWidth = dimensions.z;
 	int laneCount = getLaneCountAt(distance);
 	float laneWidth = totalWidth / laneCount;
 
@@ -280,21 +284,18 @@ int RoadSegment::getTargetLane(int currentLane, float currentDistance, float loo
 }
 
 
-int RoadSegment::determineClosestLane(float yPosition) const {
+int RoadSegment::determineClosestLane(float zPosition) const {
 	if (lanes.empty()) {
 		return 0;
 	}
 
-	float roadCenterY = getPosition().y;
-
-	float totalWidth = getDimensions().y;
-
-	float topEdge = roadCenterY - totalWidth / 2.0f;
-
+	float roadCenterZ = getPosition().z;
+	float totalWidth = getDimensions().z;
+	float topEdge = roadCenterZ - totalWidth / 2.0f;
 	float laneWidth = totalWidth / getLaneCount();
 
-	float relativeY = yPosition - topEdge;
-	int laneIndex = static_cast<int>(relativeY / laneWidth);
+	float relativeZ = zPosition - topEdge;
+	int laneIndex = static_cast<int>(relativeZ / laneWidth);
 
 	if (laneIndex < 0) {
 		laneIndex = 0;

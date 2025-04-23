@@ -187,7 +187,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             auto startJunction = getJunction(startJunctionId);
             auto endJunction = getJunction(endJunctionId);
 
-            auto road = std::make_shared<RoadSegment>(roadId, startJunction->getPosition(), Vector3(roadLength, roadWidth, 0), speedLimit);
+            auto road = std::make_shared<RoadSegment>(roadId, startJunction->getPosition(), Vector3(roadLength, 0, roadWidth), speedLimit);
 
             // add lanes
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));
@@ -224,7 +224,7 @@ void RoadNetwork::buildNetwork(int gridWidth, int gridHeight, float roadLength, 
             auto startJunction = getJunction(startJunctionId);
             auto endJunction = getJunction(endJunctionId);
 
-            auto road = std::make_shared<RoadSegment>(roadId, startJunction->getPosition(), Vector3(roadLength, roadWidth, 0), speedLimit);
+            auto road = std::make_shared<RoadSegment>(roadId, startJunction->getPosition(), Vector3(roadLength, 0, roadWidth), speedLimit);
 
             // add lanes
             road->addLane(Lane(0, LaneType::SHOULDER, 2.0f));

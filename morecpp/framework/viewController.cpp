@@ -331,7 +331,7 @@ void ViewController::renderRoadSegment(const RoadSegment& road) {
     );
 
     // get road width
-    float roadWidth = road.getDimensions().y;
+    float roadWidth = road.getDimensions().z;
 
     // get orientation
     float angle = atan2(roadDir.z, roadDir.x) * 180.0f / 3.14159f;
