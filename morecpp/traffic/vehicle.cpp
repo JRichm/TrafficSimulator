@@ -120,8 +120,11 @@ void Vehicle::setDestination(std::shared_ptr<Destination> dest) {
 
 void Vehicle::adjustSpeedForTraffic(const std::vector <std::shared_ptr<Vehicle>>& nearbyCars, float deltaTime) {
 	float targetSpeed = preferredSpeed;
-
 	float minDistance = 1000.0f;
+	float safeDistance = 5.0f;
+	float followingDistance = 10.0f;
+
+	float vehicleLength = dimensions.x;
 
 	for (const auto& otherCar : nearbyCars) {
 		if (otherCar.get() == this) continue;
@@ -133,10 +136,21 @@ void Vehicle::adjustSpeedForTraffic(const std::vector <std::shared_ptr<Vehicle>>
 		if (distance > 0 && distance < minDistance) {
 			minDistance = distance;
 
-			// too close
-			if (distance < 5.0f) {
+			float actualGap = distance - (vehicleLength + otherCar->getDimensions().x) / 2;
+
+			if (actualGap < safeDistance * 0.5f) {
+				targetSpeed = 0.0f;
+			}
+
+			else if (actualGap < safeDistance) {
+				targetSpeed = otherCar->getCurrentSpeed() * 0.5f;
+			}
+
+			else if (actualGap < followingDistance) {
 				targetSpeed = otherCar->getCurrentSpeed() * 0.8f;
-			} else if (distance < 10.0f) {
+			}
+
+			else if (actualGap < followingDistance * 2) {
 				targetSpeed = otherCar->getCurrentSpeed() * 0.9f;
 			}
 		}
@@ -145,14 +159,23 @@ void Vehicle::adjustSpeedForTraffic(const std::vector <std::shared_ptr<Vehicle>>
 	// check speed limit
 	targetSpeed = std::min(targetSpeed, currentRoad->getSpeedLimit());
 
+	float accelerationRate = 2.0f;
+	float normalDecelerationRate = 4.0f;
+	float emergencyDecelerationRate = 8.0f;
+
 	// acceleration
 	if (currentSpeed < targetSpeed) {
-		currentSpeed += 2.0f * deltaTime;
+		currentSpeed += accelerationRate * deltaTime;
 		if (currentSpeed > targetSpeed) currentSpeed = targetSpeed;
+	}
 
-	// deceleration
-	} else if (currentSpeed > targetSpeed) {
-		currentSpeed -= 4.0f * deltaTime;
+	else if (currentSpeed > targetSpeed && targetSpeed < preferredSpeed * 0.6f) {
+		currentSpeed -= emergencyDecelerationRate * deltaTime;
+		if (currentSpeed < targetSpeed) currentSpeed = targetSpeed;
+	}
+
+	else if (currentSpeed > targetSpeed) {
+		currentSpeed -= normalDecelerationRate * deltaTime;
 		if (currentSpeed < targetSpeed) currentSpeed = targetSpeed;
 	}
 
